@@ -5,7 +5,7 @@ require 'neo4j-core'
 
 session = Neo4j::Session.open(:embedded_db, '../db/neo4j/development/data/graph.db')
 session.start
-node = Neo4j::Node.create({name: 'enter'})
+node0 = Neo4j::Node.create({name: 'enter'})
 #node0 = Neo4j::Node.load 0
 puts "Loads node #{node0[:name]} with id #{node0.id}"
   
