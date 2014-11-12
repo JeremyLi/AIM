@@ -8,24 +8,35 @@ session.start
 node0 = Neo4j::Node.create({name: 'enter'})
 #node0 = Neo4j::Node.load 0
 puts "Loads node #{node0[:name]} with id #{node0.id}"
+ 
+#require 'iconv'
+
+def  create_nodes  filename, node0
+
+file = File.new  filename
+#tmp_file = File.new 'tmp_words2.txt', 'a'
+
+for line in file
+  print line
+  #line = Iconv.iconv("UTF-8//IGNORE", "GBK//IGNORE", line).to_a[0].strip
+  #line = line.encode('utf-8')
+  #print ' : ', line, '\n'
+  #tmp_file.puts line
+  line = line.strip
   
-wordsFile = File.new('words1.txt')
-l = 0
-for line in wordsFile
-  words = line.split
- l += 1
-  print l,  ': '
-  words.each_with_index do |w, i|
-    if i>0 && i%2 == 0
-      print w
-        node = Neo4j::Node.create({words:  w})
-      ids=[]
-       ids << node.id
-       node0[w] = ids
-    end
-  end
-  print "\n"
+   node = Neo4j::Node.create({words:  line}) if line.length > 0
+      
+   node0[line] = node.id if line.length > 0
+  
 end
 
-#session.stop
-p 'birthday'
+  file.close
+end
+
+
+create_nodes 'words1.txt', node0
+create_nodes 'words2.txt', node0
+create_nodes 'words3.txt', node0
+create_nodes 'words4.txt', node0
+create_nodes 'words5.txt', node0
+
